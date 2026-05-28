@@ -13,8 +13,17 @@ const store = new PostgresUnitStore(pools.appPool, pools.adminPool);
 const realtime = new InMemoryRealtimeBus();
 const orchestrator = new Orchestrator(store, realtime);
 const app = await buildServer({ orchestrator, realtime });
+let lastDispatcherErrorLogAt = 0;
 const dispatcher = new AgentDispatcher(store, orchestrator, new StubAgent(), {
-  onError: (error) => app.log.error({ error }, "Agent dispatcher tick failed")
+  onError: (error) => {
+    const now = Date.now();
+    if (now - lastDispatcherErrorLogAt < 5_000) {
+      return;
+    }
+
+    lastDispatcherErrorLogAt = now;
+    app.log.error({ error }, "Agent dispatcher tick failed; will retry")
+  }
 });
 
 dispatcher.start();
