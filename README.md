@@ -4,6 +4,10 @@ This is a modular orchestration substrate for long-running human + agent work.
 The agent is intentionally a stub; the important pieces are durable history,
 tenant isolation, concurrent ordering, idempotent intake, and realtime observation.
 
+## Console Preview
+
+![Iron Bridge console showing realtime and durable message history](ss.png)
+
 ## Architecture
 
 ```text
