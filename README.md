@@ -200,6 +200,8 @@ history, ordering, idempotency, and agent dispatch.
 
 ## Run Locally
 
+Docker Desktop must be running before starting the local PostgreSQL container.
+
 ```bash
 npm install
 npm run db:up
